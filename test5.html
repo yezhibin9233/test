@@ -1,0 +1,30 @@
+<script type="text/javascript">
+	var f1=function(){
+		//创建局部变量
+		var n=1;
+		//创建全局函数
+		test=function(){
+			n++;
+		}
+		//创建局部函数
+		 var f2=function(){
+			alert(n);
+		}
+		//传递f2的引用
+		return f2;
+	}
+
+	//第一次调用
+	//此时将f1动态运行到内存中
+	var res=f1();
+	res();
+	
+	//test将内存中的变量进行了改写
+	test();
+
+	//第二次调用,将改变后的变量返回,如若函数被重新动态加载,其原先的内容将会复原
+	res();
+	//运行结果:1,2
+</script>
+		
+

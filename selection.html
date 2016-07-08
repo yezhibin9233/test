@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>基于数组的级联列表</title>
+</head>
+	<script type="text/javascript">
+		
+		var arr=new Array('A','B','C');
+		
+		//js数组不限制大小和类型（类似java中的集合）
+		arr[3]=123;
+		for(var i=0;i<arr.length;i++){
+			console.info(arr[i]);	
+		}
+		
+		//在js中for--in一般用于循环下标，（json中常用）
+		for(temp in arr){
+			console.info("下标："+temp+",值为："+arr[temp]);
+		}
+		
+		//js中数组的下标支持中文
+		arr=new Array();
+		
+		//js中没有二维数组之说，我们仅仅是变量中又可以存储数组
+		arr['广东省']=['广州','深圳','东莞'];
+		arr['湖北省']=['武汉','黄石','孝感','宜昌'];
+		window.onload=function(){
+			
+			var prosel=document.getElementById("province");
+			var citsel=document.getElementById("city");
+
+			//向各省赋值下拉列表框
+			for(temp in arr){
+				var opt=new Option(temp,temp)
+				prosel.add(opt);
+				//为每一个选择项创建单击事件创建单击事件
+				opt.onclick=setCity(temp);
+			}
+
+		}
+
+		//实现下拉框选择省份，显示城市的两种方案
+		//第一种创建设置城市的函数，通过监听选择框改变后的值,产生相应的列表
+		//第二种是在创建省份列表的循环体中，分别对每一个选择项创建单击事件，并根据选择项的值，创建城市列表
+		function setCity(pro){
+			//共用一个全局变量pro
+			//返回函数的格式必须正确，function后面必须有括号
+			//注意括号的个数对语法的影响
+			//当事件响应时，如果传的是函数名，传的是函数本身，如果加括号则是执行后的结果。变量，对象，都是以数组的方式存在于内存中			
+			return function(){
+				var citsel=document.getElementById("city");
+
+				//清空下拉列表框的内容
+				citsel.length=1;
+
+				//如果选中内容为空，则不执行后面的内容。
+				for(temp in arr[pro]){
+					citsel.add(new Option(arr[pro][temp],arr[pro][temp]));
+				}
+			}					
+		}
+		
+
+	</script>
+<body>
+	<!-- onChange表示被选中 -->
+	<select id="province">
+		<option value="">--选择省会--</option>
+	</select>
+	<select id="city">
+		<option value="">--选择城市--</option>
+	</select>
+</body>
+</html>

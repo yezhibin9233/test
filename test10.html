@@ -1,0 +1,35 @@
+<script type="text/javascript">
+	//闭包中常见BUG的优化
+	var host=function(){
+		//创建一个自调用函数
+		//每创建一个新函数会开辟一块内存
+		//变化的i值,如果被传给一个对象,则会开辟新的地址来保存
+		
+		//将i的值获取,重新生成一个引用
+		var self=function(x){
+			return (function(){
+				//这里的x是宿主函数新开辟的内存流中的地址
+				return x;
+			});	
+		}
+
+		var a=[];
+		var i;
+		for(i=0;i<3;i++){
+			a[i]=self(i);
+		}
+		
+		return a;
+	}
+
+	//加载内存流
+	var test=host();
+	alert(test[0]());
+	alert(test[1]());
+	alert(test[2]());
+
+	//运行结果:333;
+	//BUG分析:被闭包的函数中变量的值,随着宿主函数在发生改变
+</script>
+		
+

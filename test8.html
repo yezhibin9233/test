@@ -1,0 +1,30 @@
+<script type="text/javascript">
+	
+	//创建一个立即执行的函数实现闭包
+	(
+		function(){
+			//创建初始指针
+			var i=0;
+
+			//创建全局函数
+			test=function(arr){
+				return function(){
+					//i++ 先引用,再自增
+					return arr[i++];
+				}
+			}
+		}
+	)();
+
+	//新建一个数组
+	var next=test(['a','b','c','d']);
+
+	//只要宿主函数没有被重新加载,则其相关的变量则一直存在于内存流中
+	//显示内容
+	alert(next());
+	alert(next());
+	alert(next());
+	alert(next());
+</script>
+		
+

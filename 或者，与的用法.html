@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>&&and||的用法</title>
+	<script type="text/javascript">
+		//js中除了0,'',null,false,NaN,undefined为false,其余均为ture
+		if(0||''||false||NaN||undefined){
+			alert(true);
+		}else{alert(false);}
+		//js中适当的使用&& ||可以精简代码，但是仅仅只能在JS中使用，其他强语言中，如JAVA,.NET中不可以使用。
+		//或运算执行第一个，与运算执行最后一个
+		console.info(false && 'java');//打印出false
+		console.info(true && 'java');//打印出java
+		console.info(true && 'java' && '.net');//打印出.net
+		console.info('.net' || 'java');//打印出.net
+		console.info(false ||'java');//打印出false	
+
+		//案例
+		var speed=10;
+		var level=(speed==5 &&1)||(speed==10&&2)||(speed==15&&3)||0;
+		//&&运算-->真往后执行，假不往后执行,||运算相反
+		//&&表示则，||表示否则
+		console.info(level);
+
+		//json实现
+		var speed=5;
+		//根据speed的内容返回其中的值，如果为假则向后执行，此表达式返回的值是1；
+		var level={'5':1,'10':2,'15':3}[speed]||0;
+		//此方案的缺点是只能判断相等，不能判断范围
+		console.info(level);
+		</script>
+</head>
+<body>
+
+</body>
+</html>

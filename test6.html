@@ -1,0 +1,24 @@
+<script type="text/javascript">
+	var f1=function(){
+		//创建局部变量
+		var n=1;
+		//创建全局函数
+		f2=function(){
+			alert(n);
+			n++;
+		}
+		//创建局部函数
+		//function f3() 此种声明方式仅作为局部变量
+		f3=function(){
+			alert(n);
+		}
+	}
+	//f1动态加载表示将代码序列加载到内存中
+	f1();
+	//f2实现了父函数属性值得动态修改
+	f2();
+	//获得修改后的内容
+	f3();
+</script>
+		
+

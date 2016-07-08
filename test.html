@@ -1,0 +1,103 @@
+<! DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>奇偶行数变色表格</title>
+	<style type="text/css">
+		tr{
+			text-align: center;
+		}
+		.even{
+			background:#aaa; 
+		}
+		.odd{
+			background:#ccc;
+		}
+	</style>
+	<script type="text/javascript">
+		//js代码分离是为了方便代码的重用。
+		//注册事件，如果符合条件，则会触发该事件。
+		window.onload=init;
+		function init(){
+			//需要多次调用的函数，才需要进行命名。
+			//通过ID选择器，获取当前想要的表格。
+			var tab=document.getElementById('t1');
+			var tbody=tab.getElementsByTagName('tbody')[0];
+			var trs=tbody.getElementsByTagName('tr');
+			console.info("------------------");
+			for(var i=0;i<trs.length;i++){
+				if(i%2==0)
+					trs[i].className="even";
+				else
+					trs[i].className="odd";
+				//此处可以使用三元运算符
+				//this[i].className=(i%2==0)?"even":"odd";
+				//对tbody中的每个tr事件进行注册
+				trs[i].onmouseover=function(){
+					this.style.backgroundColor="#bbb";
+				}
+				trs[i].onmouseout=function(){
+					this.style.backgroundColor="";
+				}
+			}
+		}
+		function addRow(){
+			//在表格中插入新行
+			//行标从0开始，插入到某一行前面
+			var newRow=document.getElementById("t1").insertRow(1);
+			var cell_1=newRow.insertCell(0);
+			var cell_2=newRow.insertCell(1);
+			cell_1.innerHTML="java编程思想";
+			cell_2.innerHTML="PHP入门";
+			init();
+		}
+		function delRow(){
+			//删除指定行
+			document.getElementById("t1").deleteRow(1);
+		}
+		function modTitle(){
+			//找到一张表格，获取第一行
+			var titleRow=document.getElementById("t1").rows[0];
+			titleRow.cells[0].innerHTML="Title";
+		}
+	</script>
+</head>
+<body style="width:700px;margin:0 auto">
+	<h2>Transform DataGrid form table</h2>
+	<div class="demo-info">
+		<div class="demo-tip icon-tip"></div>
+		<div>Transform DataGird from an existing,undormteed html table.</div>
+	</div>
+	<div style="margin: 10px 0;"></div>
+	<table id="t1" style="width:500px;height:auto">
+		<thead>
+			<tr>
+				<th>Item ID</th>
+				<th>Product</th>
+				<th>List Price</th>
+				<th>Attribute</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>EST-1</td><td>FI-SW-01</td><td>36.50</td><td>Large</td>
+			</tr>
+			<tr>
+				<td>EST-1</td><td>FI-SW-01</td><td>36.50</td><td>Large</td>
+			</tr>
+			<tr>
+				<td>EST-1</td><td>FI-SW-01</td><td>36.50</td><td>Large</td>
+			</tr>
+			<tr>
+				<td>EST-1</td><td>FI-SW-01</td><td>36.50</td><td>Large</td>
+			</tr>
+			<tr>
+				<td>EST-1</td><td>FI-SW-01</td><td>36.50</td><td>Large</td>
+			</tr>
+		</tbody>
+	</table>
+	<input name="b1" type="button" value="add one row" onclick="addRow()"/>
+	<input name="b2" type="button" value="delete second row" onclick="delRow()"/>
+	<input name="b3" type="button" value="modify the title" onclick="modTitle()"/>
+</body
+</html>

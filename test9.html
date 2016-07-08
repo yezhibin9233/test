@@ -1,0 +1,26 @@
+<script type="text/javascript">
+	//闭包中常见的BUG
+	var host=function(){
+		//创建一个循环
+		var a=[];
+		var i;
+		for(i=0;i<3;i++){
+			a[i]=function(){
+				//i此时仅仅代表内存地址中的引用,值一直在动态变化
+				return i;
+			};
+		}
+		return a;
+	}
+
+	//加载内存流
+	var test=host();
+	alert(test[0]());
+	alert(test[1]());
+	alert(test[2]());
+
+	//运行结果:333;
+	//BUG分析:被闭包的函数中变量的值,随着宿主函数在发生改变
+</script>
+		
+

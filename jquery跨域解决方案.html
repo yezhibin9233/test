@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>jquery跨域解决方案</title>
+	<script type="text/javascript" src="jquery-3.0.0.js"></script>
+	<script type="text/javascript">
+		//浏览器从安全角度考虑，默认禁止了xmlhttprequest跨域访问
+		//出现异常：is therefore not allowed access
+		//$.get("http://www.baidu.com");
+		//<script><img><iframe>等凡是有src属性的标签,默认都可以访问跨域资源
+	</script>
+	<script type="text/javascript">
+		//demo必须后台一致，这样导致不灵活
+		function demo(o){
+			console.info(o.name+':'+o.age);
+		}
+		//jquery采用了jsonp的方式来解决跨域问题
+		//如果指定了script或者jsonp类型，那么当从服务器接收到数据时，实际上是用了$lt;script$gt;标签
+		//(get)请求，而不是xmlhttpRequest对象
+		$.ajax(
+			{
+				//客户端POST方式发送,服务器端GET方式获取
+				type:"post",
+				//服务器端地址
+				url:"http://127.0.0.1:9090/jsonp/servlet/JsonpServlet",
+				//传入服务器端的数据
+				data:"name=John",
+				//定义回调的内容的名称,jsonp为小写
+				jsonp:"methodName",
+				dataType:'jsonp',
+				//动态指定回调的内容,服务器需要获取此内容
+				jsonpCallback:'demo2',
+				//请求成功后必定执行执行回调的函数
+				success:function demo2(msg){
+					alert("success:" +msg.age);
+				}
+			}
+		);
+	</script>
+	<script type="text/javascript" src="demo.js"></script>
+</head>
+<body>
+	<ul>
+		<li>在互联网中，我们的计算机是通过IP来定位，但是IP比较难以记忆，因此通常域名来解析IP</li>
+		<li>跨域：在A域名中想访问B域名中的资源，常见的有两种情况：1:服务器端 2:移动端</li>
+	</ul>
+</body>
+</html>

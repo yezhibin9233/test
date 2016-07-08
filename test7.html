@@ -1,0 +1,21 @@
+<script type="text/javascript">
+	//新建一个立即调用的函数
+	(
+		function(){
+			var n=0;
+			setValue=function(x){
+				n=x;
+			}
+			getValue=function(){
+				return n;
+			}
+		}
+
+	)();
+
+	//对内部变量访问或修改
+	setValue(5);
+	alert(getValue());
+</script>
+		
+

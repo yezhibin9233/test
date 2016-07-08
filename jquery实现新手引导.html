@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<style type="text/css">
+		*{
+			margin:0;
+			padding:0;
+		}
+		html{height:100%;}
+		body{
+			background:url(image/bg.png) center top;height:100%;
+		}
+		#mask{
+			height:100%;
+			width:100%;
+			position:position;
+			top:0；
+			left:0;
+			background:black;
+			/*设置不透明度,设置两种格式，兼容不同浏览器*/
+			opacity:0.5;
+			filter:alpha(opacity=50);
+			display:none;
+		}
+		#searchTip{
+			position:absolute;
+			/*右移画面一半的距离*/
+			left:50%;
+			margin-left:-490px;
+			margin-top:200px;
+			width:980px;
+			height:600px;
+			display:none;
+		}
+		#searchTip div,a,span{
+			/*子级元素属于父级元素中的某一部分,绝对定位只是针对定位点作相对偏移*/
+			position:absolute;
+		}
+		#searchTip div{
+			display:none;
+		}
+		#stepA a,#stepC a,#stepE a{
+			width:120px;
+			height:40px;
+			text-indent:-9999px;
+			overflow:hidden;
+			top:280px;
+			left:550px;
+			cursor:pointer;
+		}
+		#stepA span,#stepC span,#stepE span{
+			width:30px;
+			top:154px;
+			left:775px;
+			cursor:pointer;
+			text-indent:-9999px;
+		}
+		#stepB a,#stepD a{
+			width:120px;
+			height:40px;
+			text-indent:-999px;
+			overflow:hidden;
+			top:352px;
+			left:581px;
+			cursor:pointer;
+		}
+		#stepB span,#stepD span{
+			width:30px;
+			text-indent:-999px;
+			overflow:hidden;
+			top:253px;
+			left:819px;
+			cursor:pointer;
+		}
+		#stepA{
+			width:100%;
+			background:url(image/A.png) no-repeat center top;height:100%;			
+		}
+		#stepB{
+			width:100%;
+			background:url(image/B.png) no-repeat center top;height:100%;
+		}
+		#stepC{
+			width:100%;
+			background:url(image/A.png) no-repeat center top;height:100%;
+		}
+		#stepD{
+			width:100%;
+			background:url(image/B.png) no-repeat center top;height:100%;
+		}
+		#stepE{
+			width:100%;
+			background:url(image/A.png) no-repeat center top;height:100%;
+		}
+	</style>
+	<title>新手引导页面</title>
+	//引进jquery库
+	<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
+	<script type="text/javascript">
+		$(
+			function(){
+				
+				//读取cookie,cookie格式为name=wwww.XXX.com,substring表示从第五个开始取值
+				var res=document.cookie.substring(5);
+				
+				//cookie不存在时才进行以下新手提示
+				if(res!="www.imooc.com.cn"){
+					$('#mask,#searchTip,#searchTip div:eq(0)').show();
+					$('#searchTip div a').click(
+						function(){
+							$(this).parent().hide();
+							$(this).parent().next().show();
+						}	
+					);
+					$('#searchTip div span,#searchTip div a:last').click(
+						function(){
+							$('#mask,#searchTip').hide();
+						}
+					);
+				}
+
+				//创建cookie
+				if(1){
+
+					//创建日期,对象名不能和父类名重复
+					var oDate=new Date();
+
+					//将日期时间戳设置为30天以后
+					oDate.setDate(oDate.getDate()+30);
+
+					//创建cookie,页面每刷新一次改写一次cookie
+					document.cookie="name=www.imooc.com.cn;expires="+oDate;
+				}							
+			}			
+		);
+	</script>
+</head>
+<body>
+	<!--蒙版-->
+	<div id="mask">
+		<div id="searchTip">
+			<!-- a便签中不能有链接,否则会自动刷新 -->
+			<div id="stepA"><a>下一步</a><span title="关闭">关闭</span></div>
+			<div id="stepB"><a>下一步</a><span title="关闭">关闭</span></div>
+			<div id="stepC"><a>下一步</a><span title="关闭">关闭</span></div>
+			<div id="stepD"><a>下一步</a><span title="关闭">关闭</span></div>
+			<div id="stepE"><a>下一步</a><span title="关闭">关闭</span></div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>买家秀助手</title>
+    <link rel="stylesheet" type="text/css" href="styles/show.css"/>
+</head>
+<!-- 引入jQuery库函数 -->
+<script type="text/javascript" src="jquery-3.0.0.js"></script>
+<script type="text/javascript">
+	
+	//函数体内部的函数无法被调用
+	//如果jsonp中函数名被指定，则先执行指定函数的结果，否则执行默认的函数
+	//较好的解决方案是通过默认函数来调用函数
+	
+	//回调函数
+	var callback=function(response){
+		//取得下一页页数
+		i=response.currentPageNum+1;
+		if(i<=response.maxPage){
+			//i>1 说明respons.comments不为空
+			// 取得商品ID
+			id=response.comments[0].auction.aucNumId;
+			//获取数据
+			getData(id,i);
+		}
+		filter(response);
+	}
+	
+	//过滤函数
+	var filter=function(goods){
+			var comments=goods.comments;
+			//n必须定义在外部才能累加，否则会被覆盖掉
+			var n=0;
+			//数组不能定义在内部，否则会被重写
+			//var shows=new Array();
+			var shows=[];
+
+			//a,遍历photos目录中的图片			
+			for(var i=0;i<comments.length;i++){
+				if(comments[i].photos!=null){
+					for(var m=0;m<comments[i].photos.length;m++){
+						//show[n]=new Object();
+						//此处不能加var 因为shows已经被定义，这里仅仅是赋值
+						shows[n]={};
+						shows[n].content=comments[i].content;
+						shows[n].url=comments[i].photos[m].url;
+						n++;
+					}
+				}
+			}
+			// alert(n);||n=19
+
+			//b,遍历append目录中的图片，一个目录中只有一组照片
+			for(var i=0;i<comments.length;i++){
+				if(comments[i].append!=null&&comments[i].append.photos!=null){
+					for(var m=0;m<comments[i].append.photos.length;m++){
+						//定义新的存储对象
+						shows[n]={};
+						if(comments[i].append.content!=null){
+							shows[n].content=comments[i].append.content;
+						}else{
+							shows[n].content=comments[i].content;
+						}
+						shows[n].url=comments[i].append.photos[m].url;
+						n++;
+					}
+				}
+			}
+
+			//c,遍历appendList目录中的图片
+			for(var i=0;i<comments.length;i++){
+				if(comments[i].appendList!=null){
+					for(var m=0;m<comments[i].appendList.length;m++){
+						if(comments[i].appendList[m].photos!=null){
+							for(var q=0;q<comments[i].appendList[m].photos.length;q++){
+								//定义新的存储对象
+								shows[n]={};
+								if(comments[i].appendList[m].content!=null){
+									shows[n].content=comments[i].appendList[m].content;
+								}else{
+									shows[n].content=comments[i].content;
+								}
+								shows[n].url=comments[i].appendList[m].photos[q].url;
+								n++;
+							}
+						}
+					}
+				}	
+			}
+
+			//console.info(shows);
+			// document.write(JSON.stringify(goods));
+		}
+
+	var getData=function(id,n){
+		n=n?n:1;
+		var commentsAPI="https://rate.taobao.com/feedRateList.htm";
+		var data={
+			"rateType":3,
+			"auctionNumId":id,
+			//current 当前的
+			"currentPageNum":n,
+			"oderType":"feedbackdate"
+		};
+		var params="?";
+		for(key in data){
+			params+=key+"="+data[key]+"&";
+		}
+		var _URL=commentsAPI+params;
+		console.log(_URL);
+		//a.jax是一个内置对象
+		$.ajax({
+			url:commentsAPI,
+			//jsonpCallback:"callback",
+			//jsonp:'methodname';
+			dataType:"jsonp",
+			data:data,
+			success:function(response){
+				callback(response);
+			},
+			error:function(){
+				alert('ERROR!');
+			}
+		});
+	}
+
+	function main(){
+		getData(41979357531);
+
+	}
+	//$("document").ready与window.onload类似，但是速度更快，作用于页面代码加载完毕，而不是所有元素加载完毕
+	$("document").ready(main);
+</script>
